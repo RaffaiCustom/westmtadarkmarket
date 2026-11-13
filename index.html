@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raffai-WestMTA</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#080c14',
+                            800: '#0f172a',
+                            700: '#1e293b',
+                            600: '#334155'
+                        },
+                        mta: {
+                            blue: '#2563eb',
+                            cyan: '#06b6d4',
+                            green: '#10b981',
+                            red: '#ef4444',
+                            gold: '#f59e0b',
+                            purple: '#a855f7'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Orbitron', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #080c14;
+            color: #f8fafc;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.45);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.2s ease-in-out;
+        }
+        .glass-card:hover {
+            border-color: rgba(6, 182, 212, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(6, 182, 212, 0.15);
+        }
+        .tag-badge {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.2));
+            border: 1px solid rgba(245, 158, 11, 0.5);
+            color: #fbbf24;
+            text-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080c14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="min-h-screen font-sans pb-16">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 border-b border-slate-800 glass-panel">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                    <i class="fa-solid fa-boxes-stacked text-xl text-white"></i>
+                </div>
+                <div>
+                    <h1 class="font-display font-bold text-lg sm:text-xl tracking-wider text-white">WestMTA <span class="text-cyan-400">DARK MARKET</span></h1>
+                    <p class="text-xs text-slate-400">Illegál Katalógus</p>
+                </div>
+            </div>
+
+            <!-- Header Quick Actions -->
+            <div class="flex items-center space-x-3">
+                <button onclick="copyAdText()" class="hidden sm:flex items-center space-x-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-lg shadow-emerald-900/30 transition">
+                    <i class="fa-solid fa-bullhorn"></i>
+                    <span>Hirdetés Másolása</span>
+                </button>
+                <a href="#calculator" class="bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-500/30 px-3 py-2 rounded-xl text-sm font-medium transition flex items-center space-x-2">
+                    <i class="fa-solid fa-calculator"></i>
+                    <span class="hidden md:inline">Kalkulátor</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+
+        <!-- Banner Status -->
+        <div class="glass-panel p-6 rounded-2xl mb-8 relative overflow-hidden border border-slate-800">
+            <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+                <div>
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-semibold mb-3">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span>AZONNAL ELVIHETŐ KÉSZLET</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Komplett illegál arzenál eladás - Raffai</h2>
+                    <p class="text-slate-400 mt-1 max-w-2xl text-sm sm:text-base">
+                        Blueprintek, éles fegyverek, lőszerek, drogok és mesterkönyvek pontos darabszám szerint.
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="copyAdText()" class="sm:hidden flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl font-semibold text-sm w-full">
+                        <i class="fa-solid fa-bullhorn"></i>
+                        <span>In-Game Hirdetés Másolása</span>
+                    </button>
+                    
+                    <div class="bg-slate-900/90 border border-slate-800 px-4 py-3 rounded-xl flex items-center space-x-3">
+                        <i class="fa-solid fa-scroll text-cyan-400 text-xl"></i>
+                        <div>
+                            <div class="text-[11px] text-slate-400 font-medium uppercase">Blueprintek</div>
+                            <div class="text-base font-bold text-white">21 db (14 féle)</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/90 border border-slate-800 px-4 py-3 rounded-xl flex items-center space-x-3">
+                        <i class="fa-solid fa-gun text-red-400 text-xl"></i>
+                        <div>
+                            <div class="text-[11px] text-slate-400 font-medium uppercase">Éles fegyverek</div>
+                            <div class="text-base font-bold text-white">23 db</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls Bar -->
+        <div class="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 mb-8">
+            
+            <!-- Search Box & Filter Badges -->
+            <div class="flex flex-col sm:flex-row gap-3 flex-1">
+                <div class="relative flex-1">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="text" id="search-input" placeholder="Tárgy, fegyver, BP vagy névcédula keresése..." 
+                        class="w-full bg-slate-900/90 border border-slate-800 focus:border-cyan-500 text-slate-200 pl-10 pr-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-cyan-500 transition">
+                </div>
+
+                <!-- Category Filters -->
+                <div class="flex bg-slate-900/90 border border-slate-800 p-1 rounded-xl text-xs font-semibold overflow-x-auto">
+                    <button onclick="setCategory('all')" id="cat-all" class="cat-btn px-3 py-1.5 rounded-lg bg-cyan-600 text-white transition whitespace-nowrap">Mind</button>
+                    <button onclick="setCategory('blueprint')" id="cat-blueprint" class="cat-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition whitespace-nowrap">Blueprintek</button>
+                    <button onclick="setCategory('real_weapon')" id="cat-real_weapon" class="cat-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition whitespace-nowrap">Fegyverek</button>
+                    <button onclick="setCategory('ammo')" id="cat-ammo" class="cat-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition whitespace-nowrap">Lőszerek</button>
+                    <button onclick="setCategory('drug')" id="cat-drug" class="cat-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition whitespace-nowrap">Drogok</button>
+                    <button onclick="setCategory('book')" id="cat-book" class="cat-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition whitespace-nowrap">Mesterkönyvek</button>
+                </div>
+            </div>
+
+            <!-- View Switcher Mode -->
+            <div class="flex items-center justify-end space-x-2 bg-slate-900/90 border border-slate-800 p-1 rounded-xl">
+                <button onclick="setViewMode('cards')" id="view-cards-btn" class="p-2 rounded-lg bg-slate-800 text-cyan-400 hover:text-white transition" title="Kártya nézet">
+                    <i class="fa-solid fa-grip text-base"></i>
+                </button>
+                <button onclick="setViewMode('table')" id="view-table-btn" class="p-2 rounded-lg text-slate-400 hover:text-white transition" title="Excel / Táblázat nézet">
+                    <i class="fa-solid fa-table-list text-base"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Content Area: Cards View (Grouped by Category) -->
+        <div id="cards-container" class="space-y-10 mb-12">
+            <!-- Dynamic Category Blocks injected via JS -->
+        </div>
+
+        <!-- Content Area: Table View (Excel Style) -->
+        <div id="table-container" class="hidden glass-panel rounded-2xl overflow-hidden mb-12 border border-slate-800">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-slate-900/90 border-b border-slate-800 text-slate-400 text-xs font-semibold tracking-wider uppercase">
+                            <th class="py-4 px-4 w-12 text-center">Kijelöl</th>
+                            <th class="py-4 px-4">Tárgy Neve & Specifikáció</th>
+                            <th class="py-4 px-4">Kategória</th>
+                            <th class="py-4 px-4 text-center">Pontos Készlet</th>
+                            <th class="py-4 px-4">Irányár / db</th>
+                            <th class="py-4 px-4 text-center">Kosárba (db)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="divide-y divide-slate-800/60 font-medium">
+                        <!-- Dynamic Rows injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Interactive Calculator & Cart Summary Section -->
+        <section id="calculator" class="glass-panel rounded-2xl p-6 mb-12 border border-cyan-500/20">
+            <div class="flex flex-col lg:flex-row justify-between gap-8">
+                
+                <!-- Left: Cart Itemized List -->
+                <div class="flex-1">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="p-2.5 bg-cyan-500/10 text-cyan-400 rounded-xl border border-cyan-500/20">
+                            <i class="fa-solid fa-calculator text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Vásárlási Árajánlat Kalkulátor</h3>
+                            <p class="text-xs text-slate-400">Jelöld ki a megvásárolni kívánt tételeket a fenti katalógusban, majd amire szükséged van screenshotold ki és küldd el Discordon az árral!</p>
+                        </div>
+                    </div>
+
+                    <div id="cart-items-list" class="space-y-2 max-h-64 overflow-y-auto pr-2 min-h-[120px] border border-slate-800 rounded-xl p-3 bg-slate-900/50">
+                        <div class="text-center text-slate-500 py-10 text-sm">
+                            <i class="fa-solid fa-cart-shopping text-2xl mb-2 block text-slate-600"></i>
+                            Nincs tárgy kiválasztva. Válassz ki tételeket a fenti listából!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Summary & Contact -->
+                <div class="w-full lg:w-80 bg-slate-900/90 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4 border-b border-slate-800 pb-2">Összegzés</h4>
+                        
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between text-slate-400">
+                                <span>Kiválasztott tételek:</span>
+                                <span id="cart-count" class="font-bold text-white">0 db</span>
+                            </div>
+                            <div class="flex justify-between text-slate-400">
+                                <span>Csomag kedvezmény:</span>
+                                <span class="text-emerald-400 font-semibold">Közös megbeszélés</span>
+                            </div>
+                            <hr class="border-slate-800">
+                            <div>
+                                <div class="text-xs text-slate-400 mb-1">Becsült Végösszeg:</div>
+                                <div class="text-2xl font-black text-cyan-400 font-display" id="cart-total-price">$0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 space-y-2">
+                        <button onclick="openOfferModal()" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-cyan-600/20 transition flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Kapcsolatfelvétel / Ajánlat</span>
+                        </button>
+                        <p class="text-[11px] text-center text-slate-500">Közvetlen in-game SMS / Hívás</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal: Contact Details -->
+    <div id="offer-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 w-full max-w-md rounded-2xl p-6 shadow-2xl relative">
+            <button onclick="closeOfferModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            
+            <div class="flex items-center space-x-3 mb-4">
+                <div class="p-3 bg-cyan-500/10 text-cyan-400 rounded-xl border border-cyan-500/20">
+                    <i class="fa-solid fa-phone text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white">Eladó Elérhetőségei</h3>
+                    <p class="text-xs text-slate-400">WestMTA In-Game Kapcsolat</p>
+                </div>
+            </div>
+
+            <div class="space-y-3 my-6 text-sm">
+                <div class="bg-slate-800/60 p-3.5 rounded-xl border border-slate-700/50 flex justify-between items-center">
+                    <div>
+                        <div class="text-[11px] text-slate-400 uppercase font-semibold">In-Game Név</div>
+                        <div class="font-bold text-white text-base">Rufai Marvis Jimmy</div>
+                    </div>
+                    <button onclick="copyToClipboard('Rufai Marvis Jimmy', 'Név kimásolva!')" class="text-cyan-400 hover:text-cyan-300 p-2">
+                        <i class="fa-solid fa-copy"></i>
+                    </button>
+                </div>
+
+                <div class="bg-slate-800/60 p-3.5 rounded-xl border border-slate-700/50 flex justify-between items-center">
+                    <div>
+                        <div class="text-[11px] text-slate-400 uppercase font-semibold">Telefonszám (IG) / Discord</div>
+                        <div class="font-bold text-white text-base">1130169 / _.raffai._</div>
+                    </div>
+                    <button onclick="copyToClipboard('3876/118-874-219', 'Telefonszám kimásolva!')" class="text-cyan-400 hover:text-cyan-300 p-2">
+                        <i class="fa-solid fa-copy"></i>
+                    </button>
+                </div>
+
+                <div class="bg-cyan-950/40 border border-cyan-800/50 p-3 rounded-xl text-xs text-cyan-200">
+                    <i class="fa-solid fa-circle-info mr-1"></i> Ha nem vagyok elérhető a szerveren, keress Discordon!
+                </div>
+            </div>
+
+            <button onclick="closeOfferModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold py-2.5 rounded-xl transition">
+                Bezárás
+            </button>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-emerald-600 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-3 translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <i class="fa-solid fa-circle-check text-xl"></i>
+        <span id="toast-message" class="text-sm font-semibold">Sikeres művelet!</span>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // STRICT USER INVENTORY DATA
+        const inventory = [
+            // --- BLUEPRINTEK ---
+            { id: 'bp_m4', name: 'Blueprint: M4', category: 'blueprint', qty: 3, unitPrice: 250000, icon: 'fa-scroll', color: 'from-blue-600 to-cyan-700' },
+            { id: 'bp_ak47', name: 'Blueprint: AK-47', category: 'blueprint', qty: 2, unitPrice: 230000, icon: 'fa-scroll', color: 'from-blue-600 to-cyan-700' },
+            { id: 'bp_kokain', name: 'Blueprint: Kokain', category: 'blueprint', qty: 2, unitPrice: 100000, icon: 'fa-scroll', color: 'from-purple-600 to-pink-700' },
+            { id: 'bp_kender', name: 'Blueprint: Kender palánta', category: 'blueprint', qty: 1, unitPrice: 150000, icon: 'fa-scroll', color: 'from-emerald-600 to-teal-700' },
+            { id: 'bp_colt', name: 'Blueprint: Hangtompítós Colt-45', category: 'blueprint', qty: 1, unitPrice: 300000, icon: 'fa-scroll', color: 'from-blue-600 to-cyan-700' },
+            { id: 'bp_hacking', name: 'Blueprint: Hacking Device', category: 'blueprint', qty: 1, unitPrice: 300000, icon: 'fa-scroll', color: 'from-indigo-600 to-blue-800' },
+            { id: 'bp_fuvescigi', name: 'Blueprint: Füves cigaretta', category: 'blueprint', qty: 2, unitPrice: 50000, icon: 'fa-scroll', color: 'from-emerald-600 to-teal-700' },
+            { id: 'bp_hk416', name: 'Blueprint: HK416', category: 'blueprint', qty: 1, unitPrice: 200000, icon: 'fa-scroll', color: 'from-blue-600 to-cyan-700' },
+            { id: 'bp_uzi', name: 'Blueprint: Uzi', category: 'blueprint', qty: 1, unitPrice: 150000, icon: 'fa-scroll', color: 'from-blue-600 to-cyan-700' },
+            { id: 'bp_shotgun', name: 'Blueprint: Rövid csövű sörétes puska', category: 'blueprint', qty: 2, unitPrice: 70000, icon: 'fa-scroll', color: 'from-blue-600 to-cyan-700' },
+            { id: 'bp_rifle', name: 'Blueprint: Vadászpuska', category: 'blueprint', qty: 1, unitPrice: 400000, icon: 'fa-scroll', color: 'from-blue-600 to-cyan-700' },
+            { id: 'bp_aluminium', name: 'Blueprint: Alumínium por', category: 'blueprint', qty: 2, unitPrice: 50000, icon: 'fa-scroll', color: 'from-slate-600 to-slate-800' },
+            { id: 'bp_p90', name: 'Blueprint: FN P90', category: 'blueprint', qty: 1, unitPrice: 300000, icon: 'fa-scroll', color: 'from-blue-600 to-cyan-700' },
+            { id: 'bp_thermite', name: 'Blueprint: Thermite', category: 'blueprint', qty: 1, unitPrice: 300000, icon: 'fa-scroll', color: 'from-amber-600 to-red-600' },
+
+            // --- ÉLES FEGYVEREK ---
+            { id: 'wep_m4', name: 'M4 gépkarabély', category: 'real_weapon', qty: 4, unitPrice: 700000, icon: 'fa-gun', color: 'from-red-600 to-rose-800' },
+            { id: 'wep_p90', name: 'FN P90', category: 'real_weapon', qty: 2, unitPrice: 550000, icon: 'fa-gun', color: 'from-red-600 to-rose-800' },
+            { id: 'wep_colt', name: 'Hangtompítós Colt-45', category: 'real_weapon', qty: 1, unitPrice: 300000, icon: 'fa-gun', color: 'from-red-600 to-rose-800' },
+            { id: 'wep_sniper', name: 'Mesterlövész puska', category: 'real_weapon', qty: 3, unitPrice: 1400000, icon: 'fa-crosshair', color: 'from-red-700 to-rose-900' },
+            { id: 'wep_hk416_norm', name: 'HK416 gépkarabély (Normál)', category: 'real_weapon', qty: 3, unitPrice: 700000, icon: 'fa-gun', color: 'from-red-600 to-rose-800' },
+            { id: 'wep_hk416_tagged', name: 'HK416 gépkarabély', tag: '10 perc AFK', category: 'real_weapon', qty: 1, unitPrice: 750000, icon: 'fa-tag', color: 'from-amber-500 to-red-700' },
+            { id: 'wep_ak47', name: 'AK-47', category: 'real_weapon', qty: 7, unitPrice: 700000, icon: 'fa-gun', color: 'from-red-600 to-rose-800' },
+            { id: 'wep_remington', name: 'Remington 870', category: 'real_weapon', qty: 1, unitPrice: 400000, icon: 'fa-gun', color: 'from-red-600 to-rose-800' },
+            { id: 'wep_mossberg_tagged', name: 'Mossberg 590A1', tag: 'Pumpaduó 1/2', category: 'real_weapon', qty: 1, unitPrice: 500000, icon: 'fa-tag', color: 'from-amber-500 to-red-700' },
+
+            // --- LŐSZEREK ---
+            { id: 'ammo_smg', name: 'Kis gépfegyver töltény', category: 'ammo', qty: 838, unitPrice: 1750, icon: 'fa-cubes-stacked', color: 'from-yellow-600 to-amber-700' },
+            { id: 'ammo_rifle', name: 'Vadászpuska töltény', category: 'ammo', qty: 200, unitPrice: 4000, icon: 'fa-cubes-stacked', color: 'from-yellow-600 to-amber-700' },
+            { id: 'ammo_556', name: '5.56x45mm töltény', category: 'ammo', qty: 1400, unitPrice: 2000, icon: 'fa-cubes-stacked', color: 'from-yellow-600 to-amber-700' },
+            { id: 'ammo_ak', name: 'AK-47 töltény', category: 'ammo', qty: 1103, unitPrice: 2500, icon: 'fa-cubes-stacked', color: 'from-yellow-600 to-amber-700' },
+
+            // --- DROGOK & ILLEGÁL ---
+            { id: 'drug_kokain', name: 'Kokain', category: 'drug', qty: 49, unitPrice: 17000, icon: 'fa-vial', color: 'from-purple-600 to-pink-700' },
+            { id: 'drug_cigi', name: 'Füves cigaretta', category: 'drug', qty: 21, unitPrice: 12000, icon: 'fa-joint', color: 'from-emerald-600 to-green-700' },
+            { id: 'drug_heroin', name: 'Heroinos fecskendő', category: 'drug', qty: 38, unitPrice: 20000, icon: 'fa-syringe', color: 'from-rose-600 to-red-800' },
+
+            // --- MESTERKÖNYVEK ---
+            { id: 'book_m4', name: 'M4 fegyvermesterkönyv', category: 'book', qty: 1, unitPrice: 400000, icon: 'fa-book-skull', color: 'from-teal-600 to-cyan-800' },
+            { id: 'book_deagle', name: 'Desert Eagle mesterkönyv', category: 'book', qty: 2, unitPrice: 250000, icon: 'fa-book-skull', color: 'from-teal-600 to-cyan-800' },
+            { id: 'book_mossberg', name: 'Mossberg mesterkönyv', category: 'book', qty: 1, unitPrice: 220000, icon: 'fa-book-skull', color: 'from-teal-600 to-cyan-800' }
+        ];
+
+        const categoryMeta = {
+            blueprint: { name: 'Blueprintek (Tervrajzok)', icon: 'fa-scroll', color: 'text-cyan-400' },
+            real_weapon: { name: 'Éles Fegyverek', icon: 'fa-gun', color: 'text-red-400' },
+            ammo: { name: 'Lőszerek', icon: 'fa-cubes-stacked', color: 'text-amber-400' },
+            drug: { name: 'Drogok & Illegál', icon: 'fa-pills', color: 'text-purple-400' },
+            book: { name: 'Fegyver Mesterkönyvek', icon: 'fa-book-skull', color: 'text-teal-400' }
+        };
+
+        let selectedCart = {};
+        let activeCategory = 'all';
+        let currentView = 'cards';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderInventory();
+            setupSearch();
+        });
+
+        function setCategory(cat) {
+            activeCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-cyan-600', 'text-white');
+                btn.classList.add('text-slate-400');
+            });
+            const activeBtn = document.getElementById(`cat-${cat}`);
+            if(activeBtn) {
+                activeBtn.classList.add('bg-cyan-600', 'text-white');
+                activeBtn.classList.remove('text-slate-400');
+            }
+            renderInventory();
+        }
+
+        function setViewMode(mode) {
+            currentView = mode;
+            const cardsCont = document.getElementById('cards-container');
+            const tableCont = document.getElementById('table-container');
+            const cardsBtn = document.getElementById('view-cards-btn');
+            const tableBtn = document.getElementById('view-table-btn');
+
+            if(mode === 'cards') {
+                cardsCont.classList.remove('hidden');
+                tableCont.classList.add('hidden');
+                cardsBtn.classList.add('bg-slate-800', 'text-cyan-400');
+                cardsBtn.classList.remove('text-slate-400');
+                tableBtn.classList.remove('bg-slate-800', 'text-cyan-400');
+                tableBtn.classList.add('text-slate-400');
+            } else {
+                cardsCont.classList.add('hidden');
+                tableCont.classList.remove('hidden');
+                tableBtn.classList.add('bg-slate-800', 'text-cyan-400');
+                tableBtn.classList.remove('text-slate-400');
+                cardsBtn.classList.remove('bg-slate-800', 'text-cyan-400');
+                cardsBtn.classList.add('text-slate-400');
+            }
+        }
+
+        function setupSearch() {
+            document.getElementById('search-input').addEventListener('input', () => {
+                renderInventory();
+            });
+        }
+
+        function getFilteredInventory() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            return inventory.filter(item => {
+                const matchesCat = activeCategory === 'all' || item.category === activeCategory;
+                const matchesSearch = item.name.toLowerCase().includes(query) || (item.tag && item.tag.toLowerCase().includes(query));
+                return matchesCat && matchesSearch;
+            });
+        }
+
+        function renderInventory() {
+            const filtered = getFilteredInventory();
+            renderCards(filtered);
+            renderTable(filtered);
+        }
+
+        function renderCards(items) {
+            const container = document.getElementById('cards-container');
+            container.innerHTML = '';
+
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 glass-panel rounded-2xl text-slate-500">
+                        <i class="fa-solid fa-box-open text-4xl mb-3 block"></i>
+                        <p>Nincs találat a megadott keresési feltételre.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Group items by category for cleaner organization
+            const categories = activeCategory === 'all' 
+                ? ['blueprint', 'real_weapon', 'ammo', 'drug', 'book'] 
+                : [activeCategory];
+
+            categories.forEach(catKey => {
+                const catItems = items.filter(i => i.category === catKey);
+                if (catItems.length === 0) return;
+
+                const catMeta = categoryMeta[catKey];
+                const section = document.createElement('div');
+                section.className = 'space-y-4';
+
+                section.innerHTML = `
+                    <div class="flex items-center space-x-3 border-b border-slate-800 pb-3">
+                        <i class="fa-solid ${catMeta.icon} ${catMeta.color} text-lg"></i>
+                        <h3 class="font-bold text-lg text-white font-display tracking-wide">${catMeta.name}</h3>
+                        <span class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-md border border-slate-700">${catItems.length} tétel</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        ${catItems.map(item => createCardHTML(item)).join('')}
+                    </div>
+                `;
+                container.appendChild(section);
+            });
+        }
+
+        function createCardHTML(item) {
+            const isSelected = selectedCart[item.id] > 0;
+            const currentQty = selectedCart[item.id] || 0;
+            const tagBadge = item.tag ? `<div class="mt-1"><span class="tag-badge text-[11px] font-bold px-2 py-0.5 rounded-md inline-flex items-center space-x-1"><i class="fa-solid fa-tag text-[9px]"></i><span>Névcédula: "${item.tag}"</span></span></div>` : '';
+
+            return `
+                <div class="glass-card p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden ${isSelected ? 'border-cyan-500/60 ring-1 ring-cyan-500/50 bg-slate-800/80' : ''}">
+                    <div>
+                        <!-- Stock Qty Highlight Badge -->
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center text-white text-lg shadow-lg shrink-0">
+                                <i class="fa-solid ${item.icon}"></i>
+                            </div>
+                            <span class="text-xs font-black px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
+                                ${item.qty} db KÉSZLETEN
+                            </span>
+                        </div>
+
+                        <!-- Item Details -->
+                        <h4 class="font-bold text-white text-base leading-snug">${item.name}</h4>
+                        ${tagBadge}
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-slate-800/80">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs text-slate-400">Irányár / db:</span>
+                            <span class="text-sm font-bold text-slate-200 font-mono">${formatCurrency(item.unitPrice)}</span>
+                        </div>
+
+                        <!-- Quantity Stepper -->
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox" onchange="toggleSelect('${item.id}')" ${isSelected ? 'checked' : ''} 
+                                class="w-5 h-5 rounded border-slate-700 bg-slate-900 text-cyan-600 focus:ring-cyan-500 cursor-pointer">
+                            
+                            <div class="flex-1 flex items-center justify-between bg-slate-900/90 rounded-xl p-1 border border-slate-800">
+                                <button onclick="updateQty('${item.id}', -1)" class="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition">
+                                    <i class="fa-solid fa-minus text-xs"></i>
+                                </button>
+                                <span class="text-xs font-bold text-white">${currentQty} / ${item.qty}</span>
+                                <button onclick="updateQty('${item.id}', 1)" class="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition">
+                                    <i class="fa-solid fa-plus text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderTable(items) {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+
+            if (items.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center py-8 text-slate-500">Nincs találat.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            items.forEach(item => {
+                const isSelected = selectedCart[item.id] > 0;
+                const currentQty = selectedCart[item.id] || 0;
+                const tagText = item.tag ? ` <span class="tag-badge text-[10px] px-1.5 py-0.5 rounded font-bold">Névcédula: "${item.tag}"</span>` : '';
+
+                const tr = document.createElement('tr');
+                tr.className = `hover:bg-slate-800/40 transition ${isSelected ? 'bg-cyan-950/20' : ''}`;
+                
+                tr.innerHTML = `
+                    <td class="py-3 px-4 text-center">
+                        <input type="checkbox" onchange="toggleSelect('${item.id}')" ${isSelected ? 'checked' : ''} 
+                            class="w-4 h-4 rounded border-slate-700 bg-slate-900 text-cyan-600 focus:ring-cyan-500 cursor-pointer">
+                    </td>
+                    <td class="py-3 px-4 font-semibold text-white">
+                        <div class="flex items-center space-x-3">
+                            <i class="fa-solid ${item.icon} text-cyan-400 w-5"></i>
+                            <div>
+                                <span>${item.name}</span>
+                                ${tagText}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-3 px-4 text-xs text-slate-400">
+                        <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700">
+                            ${categoryMeta[item.category].name}
+                        </span>
+                    </td>
+                    <td class="py-3 px-4 text-center">
+                        <span class="text-xs font-black text-cyan-400 bg-cyan-950/40 px-2.5 py-1 rounded-md border border-cyan-800/40">
+                            ${item.qty} db
+                        </span>
+                    </td>
+                    <td class="py-3 px-4 text-slate-300 font-mono text-xs font-semibold">${formatCurrency(item.unitPrice)}</td>
+                    <td class="py-3 px-4">
+                        <div class="flex items-center justify-center space-x-2 bg-slate-900/90 rounded-xl p-1 border border-slate-800 w-28 mx-auto">
+                            <button onclick="updateQty('${item.id}', -1)" class="w-6 h-6 flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg">
+                                <i class="fa-solid fa-minus text-[10px]"></i>
+                            </button>
+                            <span class="text-xs font-bold text-white">${currentQty}</span>
+                            <button onclick="updateQty('${item.id}', 1)" class="w-6 h-6 flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg">
+                                <i class="fa-solid fa-plus text-[10px]"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function toggleSelect(id) {
+            const item = inventory.find(i => i.id === id);
+            if (!item) return;
+
+            if (selectedCart[id] > 0) {
+                delete selectedCart[id];
+            } else {
+                selectedCart[id] = 1;
+            }
+            renderInventory();
+            updateCartSummary();
+        }
+
+        function updateQty(id, delta) {
+            const item = inventory.find(i => i.id === id);
+            if (!item) return;
+
+            const current = selectedCart[id] || 0;
+            const next = current + delta;
+
+            if (next <= 0) {
+                delete selectedCart[id];
+            } else if (next <= item.qty) {
+                selectedCart[id] = next;
+            } else {
+                showToast(`Maximalisan ${item.qty} db van belole!`);
+            }
+
+            renderInventory();
+            updateCartSummary();
+        }
+
+        function updateCartSummary() {
+            const container = document.getElementById('cart-items-list');
+            const totalCountEl = document.getElementById('cart-count');
+            const totalPriceEl = document.getElementById('cart-total-price');
+
+            const keys = Object.keys(selectedCart);
+            
+            if (keys.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-slate-500 py-10 text-sm">
+                        <i class="fa-solid fa-cart-shopping text-2xl mb-2 block text-slate-600"></i>
+                        Nincs tárgy kiválasztva. Válassz ki tételeket a fenti listából!
+                    </div>
+                `;
+                totalCountEl.innerText = '0 db';
+                totalPriceEl.innerText = '$0';
+                return;
+            }
+
+            container.innerHTML = '';
+            let grandTotal = 0;
+            let totalItemCount = 0;
+
+            keys.forEach(id => {
+                const item = inventory.find(i => i.id === id);
+                const qty = selectedCart[id];
+                const subtotal = item.unitPrice * qty;
+                grandTotal += subtotal;
+                totalItemCount += qty;
+
+                const row = document.createElement('div');
+                row.className = "flex justify-between items-center text-xs py-2 px-3 bg-slate-800/40 rounded-xl border border-slate-700/40";
+                row.innerHTML = `
+                    <div class="flex items-center space-x-2 overflow-hidden">
+                        <span class="font-bold text-cyan-400 shrink-0">${qty}x</span>
+                        <span class="text-slate-200 truncate">${item.name} ${item.tag ? `("${item.tag}")` : ''}</span>
+                    </div>
+                    <div class="flex items-center space-x-3 shrink-0">
+                        <span class="font-mono text-slate-300 font-semibold">${formatCurrency(subtotal)}</span>
+                        <button onclick="updateQty('${item.id}', -${qty})" class="text-slate-500 hover:text-red-400 p-1">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+
+            totalCountEl.innerText = `${totalItemCount} db`;
+            totalPriceEl.innerText = formatCurrency(grandTotal);
+        }
+
+        function formatCurrency(val) {
+            return '$' + val.toLocaleString('hu-HU');
+        }
+
+        function copyAdText() {
+            const adText = "/ad Eladó: 21db BP (3xM4, 2xAK, Kokain, P90, Hacking stb.), Éles fegyverek (M4, AK, Sniper, Mossberg), Lőszerek, Drogok & Könyvek! Tel: 3876/118-874-219";
+            copyToClipboard(adText, "In-Game /ad hirdetés másolva!");
+        }
+
+        function copyToClipboard(text, message) {
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast(message);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        function openOfferModal() {
+            document.getElementById('offer-modal').classList.remove('hidden');
+        }
+
+        function closeOfferModal() {
+            document.getElementById('offer-modal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
